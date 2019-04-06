@@ -15,13 +15,9 @@
   <input type="submit" name="all" value="All">
  </form>
  <script>
-	 	function ska(name)
+	 	function itemAdded()
 		{
-			alert(name + " добавлено");
-			bask.push(name);
-			len = bask.length;
-				console.log(len);
-			console.log(bask);
+			alert("Товар был успешно добавлен в корзину!");
 		}
 	 </script>
 <?php
@@ -58,17 +54,15 @@ while ($row = mysqli_fetch_array($res))
 		 <form action = '' method = 'post'> 
 		 <input type='hidden' name = 'good' value = '%s'>
 		 <input type='hidden' name = 'price' value = '%d'>
-		 <input type = 'submit'  name = 'submit' class = 'buy' value = '%d₴'>
+		 <input type = 'submit'  name = 'submit' class = 'buy' value = '%d₴' onclick = 'itemAdded()'>
 		 </form>
 		 </div>
 		 ", $i ,$row["name"], $row["description"], $row["image"], $row["name"], $row["price"], $row["price"]);
 }
 if (isset($_POST['submit']))
 {
-	$good = $_POST['good'];
-	$price = $_POST['price'];
-	$sql = "INSERT basket (`id`, `good`, `price`) VALUES ( null ,\"$good\", \"$price\")";
-	$res = mysqli_query($connect, $sql);
+	$value = $_COOKIE["TestCookie"]."/".$_POST['good'];
+	setcookie ("TestCookie", $value);
 }
 ?>
 </body>
