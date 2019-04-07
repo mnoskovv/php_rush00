@@ -18,26 +18,32 @@
 	if (isset($_COOKIE["TestCookie"]))
 	{
 		$goods = explode("/", $_COOKIE["TestCookie"]);
+		$arr = array_count_values($goods);
+		foreach ($arr as $key => $value)
+		{	
+			$i = explode("@",$key);
+    		if ($key != "")
+    			echo $i[0].":"." $i[1] uah x$value<br>";
+		}
 		for ($index = 0; $index < count($goods); $index++)
 		{    
 			$item = explode("@", $goods[$index]);
    			if (isset($item[0]) && isset($item[1]))
    			{
-   				printf("<center>%s %d<br><center>",$item[0], $item[1]);
    				$total += $item[1];
    			}
    		}
+   		printf("Товаров в корзине на: %d грн", $total);
 	}
 	else
 	{
-		echo "<br>Ваша корзина пуста!"; 
+		printf("Товаров в корзине на: %d грн", $total);
 	}
 	if (isset($_POST['submit']))
 	{
 		setcookie ("TestCookie", "", time() - 3600);
 		header('Location: index.php');
 	}
-	echo("total: ".$total);
 ?>
 <form action="" method="post">
 	 <?php
