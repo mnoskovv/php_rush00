@@ -84,6 +84,7 @@
 	{
 		setcookie ("logged_in", "", time() - 3600);
 		setcookie ("login", "", time() - 3600);
+		setcookie ("TestCookie", "", time() - 3600);
 		header('Location: index.php');
 	}
 ?>
