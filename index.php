@@ -1,112 +1,91 @@
-<?php
-	session_start();
-	$_PZDC = "internet_magazin/goods.php";
-	include ("internet_magazin/reg.php");
-	include ("internet_magazin/log.php");
-	if (isset($_POST['logout']))
-	{
-		session_destroy();
-		header('Location: index.php');
-	}
-	if (isset($_POST['lol']))
-			$_PZDC = "internet_magazin/bask.php";
-	error_reporting(E_ERROR | E_PARSE);
-	$res = $_SESSION['status'] == "admin" ? $_SESSION['page'] : $_PZDC; 
-?>
 <!DOCTYPE html>
+<html>
 <head>
-	<link rel="stylesheet" type="text/css" href="style.css">
-	<script src="script.js"></script>
-	<meta charset="UTF-8">
-	<title>Shop</title>
+	<meta charset="utf-8">
+	<title>Black Apple</title>
+	 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-	<div id="main" class="shadow">
-		<div id="header">
-			<div id="profile">
-				<?php
-				if (isset($_SESSION['login']))
-				{
-						echo ("<div id='signed' class='profile-top' >Hi, ".$_SESSION['login']."</div>");
-						echo ("<div class='profile-bottom'><form name ='lg_out' method = 'POST' action =\"index.php\"><input id='logout' type='submit' name = 'logout' value = 'Logout' ></form></div>");
-				}
-				else
-				{
-						echo ("<div id='sign-in' class='profile-top'>Sign In</div>");
-						echo ("<div id='sign-up' class='profile-bottom'>Sign Up</div>");
-				}
-				?> 
-			</div>
-			<!-- <div id="logo"></div> -->
-			<form action="" method="post">
-		 <div id="basket"> <button name = "lol" style = "height: 40px; width: 70px; opacity: 0;"> </button></div>
-		</form>
-		</div>
-		<br/>
-<iframe id="myIframe" name="myIframe" src="<?php echo($res); ?>" height="400px"width="100%">
-		 </iframe>
-	</div>
-	<div id="sign-up-form"  onSubmit="return checkPw();" class="signing-forms shadow">
-		<div id="close-sign-up-form"  class="close-button"  onclick="close_up('sign-up-form')"></div>
-		<div class="form-title">Sign Up</div>
-		<form class="sign-form" action="index.php" method="POST">
-			Username:
-			<input class="sign-input" type="text" name="login" required="true" value="" />
-			<br />
-			<br /> Password:
-			<input class="sign-input" type="password" name="pw1" id = "pw1" required="true" value="" />
-			<br />
-			<br /> Confirm Password:
-			<input class="sign-input" type="password" name="pw2" id = "pw2" required="true"  value="" />
-			<br />
-			<br />
-			<input class="sign-submit" type="submit" name="register" value="Sign Up" />
-		</form>
-	</div>
-	<div id="sign-in-form" class="signing-forms shadow">
-		<div id="close-sign-in-form" class="close-button" onclick="close_up('sign-in-form')"></div>
-		<div class="form-title">Sign In</div>
-		<form class="sign-form" action="index.php" method="POST">
-			Username:
-			<input class="sign-input" type="text" name="login_l" value="" />
-			<br />
-			<br /> Password:
-			<input class="sign-input" type="password" name="passwd_l" value="" />
-			<br />
-			<br />
-			<input class="sign-submit" type="submit" name="sign_in" value="Sign In" />
-		</form>
-		<div id="error-pass"></div>
-	</div>
-
-	<div id="basket-page" class="shadow">
-		<div id="close-basket-page" class="close-button"></div>
-		<div class="form-title">Basket</div>
-	</div>
-	<div id="success-order-form" class="signing-forms shadow">
-		<div id="close-success-order-form" class="close-button"></div>
-		<div class="form-title">Your order has been placed</div>
-		<div class="form-text">Your order number is
-			<div id="order-nbr-str">1000000</div>
-		</div>
-	</div>
-</body>
-<script type="text/javascript">
-	function checkPw() 
-	{
-		var pw1 =  document.getElementById('pw1').value;
-		var pw2 = document.getElementById('pw2').value;
-		if (pw1 != pw2)
+<div class="header">
+  <a href="#" class="logo">
+  	<?php 
+		if (isset($_COOKIE["login"]))
 		{
-			alert ("\nВы ввели в поле \"Повторить\" пароль отличный от введенного в поле \"Пароль\".")
-			return false;
+			echo "Hi there, ".$_COOKIE["login"];
 		}
-		else return true;
+	?> 
+</a>
+  <div class="header-right">
+	<a href="#">Home</a>
+	<?php
+		if ($_COOKIE["logged_in"] != "yes") {
+			echo "<a href='log_page.html'>Log in</a>";
+			echo "<a href='reg_page.html'>Registration</a>";
+		}
+		else {
+			echo "<a href='index.php?logout=true'>Log out</a>";
+		}
+	?>
+	<a href="cart.php">Cart</a>
+
+  </div>
+</div>
+ <form class="categories" action="index.php" method="POST" name ="tst">
+	 <input class="button" type="submit" name="all" value="All">
+	 <input class="button" type="submit" name="phones" value="Phones" class = 'sort'>
+	 <input class="button" type="submit" name="computers" value="Computers">
+	 <input class="button" type="submit" name="tabs" value="Tabs">
+ </form>
+
+<?php
+	require_once('connection.php');
+	$sql = "SELECT * FROM `goods`";
+	if (isset($_POST['phones'])) {
+		$sql = "SELECT * FROM goods WHERE category = 'phones'";
 	}
-	function close_up(id)
-	{
-		document.getElementById(id).style.visibility='hidden';
-		document.getElementById(id).style.opacity = 0;
+	if (isset($_POST['computers'])) {
+		$sql = "SELECT * FROM goods WHERE category = 'computers'";
+	}
+	if (isset($_POST['tabs'])) {
+		$sql = "SELECT * FROM goods WHERE category = 'tablets'";
+	}
+	if (isset($_POST['all'])) {
+		$sql = "SELECT * FROM goods WHERE 1";
+	}
+	$res = mysqli_query($connect, $sql);
+	$i = 0;
+	while ($row = mysqli_fetch_array($res)) {
+		$i++;
+		$name = $row["name"];
+		printf (" <div class=\"gallery\">
+					<a target=\"_blank\" href=\"%s\">
+						<img src=\"%s\" width=\"200\" height=\"200\">
+					</a>
+				<div class=\"desc\">%s</div>
+		  		<form action = '' method = 'post'>
+				  <input type='hidden' name = 'good' value = '%s'>
+				  <input type='hidden' name = 'price' value = '%d'>
+				  <div class=\"desc\"><input class=\"button-with-price\" type = 'submit'  name = 'submit' class = 'buy' value = '%duah' onclick = 'itemAdded()'></div>
+				</form>
+				</div>"
+				, $row["image"], $row["image"], $row["description"], $row["name"], $row["price"], $row["price"]);  
+	}
+	if (isset($_POST['submit'])) {
+		$value = $_COOKIE["TestCookie"]."/".$_POST['good']."@".$_POST['price'];
+		setcookie ("TestCookie", $value);
+	}
+	if (isset($_GET["logout"])) {
+		setcookie ("logged_in", "", time() - 3600);
+		setcookie ("login", "", time() - 3600);
+		setcookie ("TestCookie", "", time() - 3600);
+		header('Location: index.php');
+	}
+?>
+
+<script>
+	function itemAdded() {
+		alert("Your item has been added to the cart!");
 	}
 </script>
+</body>
 </html>
