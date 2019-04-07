@@ -47,7 +47,7 @@
 ?>
 <form action="" method="post">
 	 <?php
-		if(isset($_COOKIE["TestCookie"]))
+		if(isset($_COOKIE["TestCookie"]) && isset($_COOKIE["login"]))
 		{
 		?>
 			 <input type='submit' value='Оформить' name='submit' onclick = "alert('Спасибо за заказ, мы с вами свяжемся!')">
