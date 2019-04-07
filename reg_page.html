@@ -37,6 +37,12 @@
   			display: inline-block;
   			font-size: 16px;
 	 	}
+	 	.login{
+	 		margin-left: 22%;
+	 	}
+	 	.pw1{
+	 		margin-left: 22%;
+	 	}
 	 </style>
 </head>
 <body>
@@ -47,17 +53,20 @@
   </div>
   </div>
   <div id="main">
-<label>
-	<h2>Log in:</h2>
-	<form class="" action="log.php" method="POST">
+  <label> 
+  	<h2>Registration:</h2>
+	<form action="reg.php" method="POST">
 			Username:
-			<input class="sign-input" type="text" name="login_l" value="" />
+			<input class="sign-input login" type="text" name="login" required="true" value="" />
 			<br />
 			<br /> Password:
-			<input class="sign-input" type="password" name="passwd_l" value="" />
+			<input class="sign-input pw1" type="password" name="pw1" id = "pw1" required="true" value="" />
+			<br />
+			<br /> Confirm Password:
+			<input class="sign-input" type="password" name="pw2" id = "pw2" required="true"  value="" />
 			<br />
 			<br />
-			<input class="sign-submit" type="submit" name="sign_in" value="Sign In" />
+			<input class="sign-submit" type="submit" name="register" value="Sign Up" />
 		</form>
 </label>
 </div>
