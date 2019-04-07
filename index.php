@@ -77,7 +77,7 @@
 	}
 	if (isset($_POST['submit']))
 	{
-		$value = $_COOKIE["TestCookie"]."/".$_POST['good'];
+		$value = $_COOKIE["TestCookie"]."/".$_POST['good']."@".$_POST['price'];
 		setcookie ("TestCookie", $value);
 	}
 	if (isset($_GET["logout"]))

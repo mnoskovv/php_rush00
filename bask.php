@@ -34,7 +34,14 @@
 	}
 ?>
 <form action="" method="post">
-<input type="submit" value="Оформить" name="submit" onclick='alert("Спасибо за заказ, мы с вами свяжемся!")'>
+	 <?php
+		if(isset($_COOKIE["TestCookie"]))
+		{
+		?>
+			 <input type='submit' value='Оформить' name='submit' onclick = "alert('Спасибо за заказ, мы с вами свяжемся!')">
+		<?php
+		}
+	?>
 </form>
 </body>
 </html>
